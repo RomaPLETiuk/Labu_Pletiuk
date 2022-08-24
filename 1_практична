@@ -1,1 +1,129 @@
 
+#include <iostream>
+#include <conio.h>
+#include <math.h>
+using namespace std;
+const char root = 251;
+
+class Complex
+{
+public:
+double real = 0;
+double imagine = 0;
+
+public:
+double subtraction(Complex *A, Complex *B)
+{
+    this->real = A->real-B->real;
+
+    this->imagine = A->imagine-B->imagine;
+}
+
+double addition(Complex *A, Complex *B)
+{
+    this->real = A->real+B->real;
+
+    this->imagine = A->imagine+B->imagine;
+}
+
+void multiplication(Complex *A, Complex *B)
+{
+    this->real = ((A->real*B->real)-(A->imagine*B->imagine));
+
+    this->imagine = ((A->real*B->imagine)+(A->imagine*B->real));
+}
+
+
+void print()
+{
+    cout << this->real << " " << this->imagine << "i"; 
+}
+
+void fill(double a, double b)
+{
+    this->real = a;
+    this->imagine = b;  
+}
+
+void trigonometricRepresentation(Complex *A, int *indicator)
+{
+    double r = 0, angle, f;
+    r = modulus(this, indicator);
+    if(A->real == 0)
+        angle = 90;
+    else    
+        angle = A->imagine/A->real;
+    if(angle==0)
+        f = 0;
+    else if(angle==1/sqrt(3) && indicator)
+        f = 30;
+    else if(angle==1)
+        f = 45;
+    else if(angle==sqrt(3) && indicator)
+        f = 60;
+    if(*indicator)
+        cout << root << r << "(cos" << f << "-i*sin" << f << ")" << endl;
+    else if(!*indicator)
+        cout << r << "(cos" << f << "-i*sin" << f << ")" << endl;
+
+
+
+}
+
+double modulus(Complex *A, int *indicator)
+{
+    double mod;
+    mod = sqrt((A->real*A->real)+(A->imagine*A->imagine));
+    if (fabs(mod - floor(mod)) < 1e-5)
+        return sqrt((A->real*A->real)+(A->imagine*A->imagine));
+    else if (fabs(mod - floor(mod)) > 1e-5)
+    {
+        *indicator = 1;
+        return (A->real*A->real)+(A->imagine*A->imagine);
+    }
+
+}
+
+void powerOfComplex(Complex *C, int *pow)
+{
+
+    Complex *temp = new(Complex);
+    temp = C;
+    int i = 0;
+
+    this->multiplication(C, temp);
+    ++i;
+
+    for(int i = 0; i<*pow-1; ++i)
+        this->multiplication(C, temp);
+
+
+}
+
+};
+
+
+
+int main()
+{
+double a, b;
+int indicator = 0;
+Complex *A_Complex = new Complex;
+Complex *B_Complex = new Complex;
+Complex *C_Complex = new Complex;
+cout << "Enter real and imagine part of complex number" << endl;
+cin >> a >> b;
+A_Complex->fill(a, b);
+
+int pow = 3;
+
+C_Complex->powerOfComplex(A_Complex, &pow);
+
+C_Complex->print();
+
+delete(A_Complex);
+delete(B_Complex);
+
+return 0;
+
+}
