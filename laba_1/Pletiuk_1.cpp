@@ -40,6 +40,21 @@ public:
     this->imagine = imagine;
 
   }
+ 
+  double getReal() {
+            return real; 
+        }
+  double getImagine() {
+            return imagine; 
+        }
+  void setReal(double real){
+            this-> real=real;
+  }
+ 
+  void setImagine(double imagine){
+            this->imagine=imaginel;
+  }
+ 
   void showComplex ()
   {
     if (imagine >= 0)
