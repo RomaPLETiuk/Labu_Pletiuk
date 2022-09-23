@@ -1,1 +1,171 @@
 
+
+
+#include <iostream>
+#include <time.h>
+#include <clocale>
+#include <cstring>
+#include <fstream>
+
+using namespace std;
+
+class Ship
+{
+private:
+    string name; // название парохода
+    string company; // название компании-перевозчика
+    int numberSeats; // количество мест
+    int numberPass; // количество пассажиров
+    int freePlaces; // Свободные места
+    int extraPass; // Лишине пассажиры
+
+public:
+    Ship()
+    {
+        this->name = "";
+        this->company = "";
+        this->numberSeats = 1;
+        this->numberPass = 1;
+         
+    } // коструктор без параметрів
+
+    Ship(string Name, string Company, int NumberSeats, int NumberPass) {
+        this->name = Name;
+        this->company = Company;
+        this->numberSeats = NumberSeats;
+        this->numberPass = NumberPass;
+    } // конструктор з параметрами
+
+void setInfo(string Name, string Company, int NumberSeats, int NumberPass)
+    {
+         this->name = Name;
+        this->company = Company;
+        this->numberSeats = NumberSeats;
+        this->numberPass = NumberPass;
+    }
+ string getName() {
+        return name;
+    }
+
+    /*Ship(string Name, string Company, int NumberSeats, int NumberPass)
+    {
+        f_set_Ship(Name, Company, NumberSeats, NumberPass);
+    } // конструктор
+
+    void f_set_Ship(string Name, string Company, int NumberSeats, int NumberPass)
+    {
+        numberSeats = NumberSeats;
+        numberPass = NumberPass;
+        name = Name;
+        company = Company;
+        //strcpy(nameShip, NameShip);
+        //strcpy(nameCompany, NameCompany);
+    }*/
+    int f_freePlaces() // количество свободных мест на пароходе
+    {
+        freePlaces = numberSeats - numberPass;
+        if (freePlaces <= 0) freePlaces = 0;
+        return freePlaces;
+    }
+    int f_extraPass() // количество лишних пассажиров на пароходе
+    {
+        freePlaces = numberSeats - numberPass;
+        extraPass = abs(freePlaces);
+        if (freePlaces >= 0)
+            extraPass = 0;
+        return extraPass;
+    }
+    void f_getShip(Ship* korabel, int n) // финальный вывод информации
+    {
+        ifstream file("sh.txt");
+        ofstream fin("in.txt");
+        int coast = 0; // проверка
+        for (int i = 0; i < n; i++){
+          file>> korabel->name>>korabel->company>>korabel->numberSeats>>korabel->numberPass;
+            korabel[i].setInfo(name, company, numberSeats, numberPass);
+        
+         
+             
+            
+            
+   
+            
+        fin<< "Парплав - " << name << ". Від компанії - " << company << endl;
+        cout << "Парплав - " << name << ". Від компанії - " << company << endl;
+        if (f_extraPass() > (numberSeats / 2))
+        {
+            fin<< "Потоне, тому що кількість пасажирів більше ніж 50% від загальної кількості місць." << endl;
+            cout << "Потоне, тому що кількість пасажирів більше ніж 50% від загальної кількості місць." << endl;
+            coast = 1;
+        }
+        else if (f_freePlaces() > (numberSeats / 2))
+        {
+            fin<< "Буде плисти порожняком, тому що кількість пасажирів менше ніж 50% від загальної кількості місць." << endl;
+            cout << "Буде плисти порожняком, тому що кількість пасажирів менше ніж 50% від загальної кількості місць." << endl;
+            coast = 2;
+        }
+        else{ //(coast == 0)
+            fin<< "Вдало прибуде в порт." << endl;
+            cout << "Вдало прибуде в порт." << endl;
+        }  }
+            
+       fin.close();     
+    }
+};
+
+int main()
+{
+    srand(time(0));
+    setlocale(LC_ALL, "Ukr");
+
+    string Name; // название парохода
+    string Company, str; // название компании-перевозчика
+    int NumberSeats; // количество мест
+    int NumberPass, count =0; // количество пассажиров
+/*
+    cout << "Введите название парохода- ";
+    cin >> Name;
+    cout << "Введите название компании-перевозчика - ";
+    cin >> Company;
+    cout << "Введите количество мест в парохода- ";
+    cin >> NumberSeats;
+    cout << "Введите количество пассажиров - ";
+    cin >> NumberPass;
+*/
+
+
+   // Ship object(Name, Company, NumberSeats, NumberPass);
+   // object.f_getShip();
+    
+    fstream out_file;
+    ifstream file("sh.txt");
+    //ofstream out("sh.txt");
+     if (file) {
+        while (!file.eof()) {
+            getline(file, str, '\n');
+            count++;
+        }
+        
+        Ship* korabel = new Ship[count];
+        
+         file.clear();
+        file.seekg(0);
+        
+        
+        /*for (int i = 0; i < count; i++) {
+            for (int j = i + 1; j < count; j++) {
+                if (korabel[i].getName() > korabel[j].getName()) {
+                    swap(korabel[i], korabel[j]);
+                }
+            }
+        }*/
+    //for (int i = 0; i < count; i++)    
+     korabel->f_getShip(korabel, count);
+     //fout<<korabel[i].f_getShip();  
+        
+}
+else
+        cout << "File error";
+    file.close();
+    
+}
