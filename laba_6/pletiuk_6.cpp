@@ -1,9 +1,8 @@
 /******************************************************************************
+журнал, книга, друковане видання, підручник;
 
-Welcome to GDB Online.
-GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
-C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, HTML, CSS, JS
-Code, Compile, Run and Debug online from anywhere in world.
+      30.09.2022 
+                     by Roman Pletiuk
 
 *******************************************************************************/
 #include <iostream>
