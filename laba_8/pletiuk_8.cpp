@@ -1,4 +1,10 @@
-﻿#include <iostream>
+﻿
+/*
+15.10.22
+R. Pleyiuk
+
+*/
+#include <iostream>
 
 using namespace std;
 template <class T>
