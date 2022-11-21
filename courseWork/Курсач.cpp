@@ -112,56 +112,78 @@ public:
     int getSeatAmount() {
         return seatAmount;
     }
+ 
+    
+};
+
+class Ticket {
+ 
+    Station * station;
+    Passenger * passenger;
+    Train* train;
+   public:   
+    Ticket(Station * station, Passenger * passenger, Train * train){
+        
+      this-> passenger=passenger; 
+      this-> station=station;
+      this-> train=train ;
+        
+    }
+    
+    
     int getFreeSeatsAmount() { //Функція розрахунку кількості пустих місць
-        if (seatAmount > passAmount) {
-            return seatAmount - passAmount;
+        if (train->seatAmount > passenger->passAmount) {
+            return train->seatAmount - passenger->passAmount;
         }
         else {
             return 0;
         }
     }
-
-    int getPassOverflowAmount() { //Функція розрахунку кількості недовольних пасажирів (не хватило місця)
-        if (passAmount > seatAmount) {
-            return passAmount - seatAmount;
+    
+     int getPassOverflowAmount() { //Функція розрахунку кількості недовольних пасажирів (не хватило місця)
+        if (passenger->passAmount > train->seatAmount) {
+            return passenger->passAmount - train->seatAmount;
         }
         else {
             return 0;
         }
     }
-
-    bool isNewTrainNeeded() { //Функція перевірки чи потрібен додадковий потяг
-        if (getPassOverflowAmount() > getSeatAmount() * 60 / 100) {
+    
+      bool isNewTrainNeeded() { //Функція перевірки чи потрібен додадковий потяг
+        if (getPassOverflowAmount() > train->getSeatAmount() * 60 / 100) {
             return true;
         }
         return false;
     }
-
-    friend ifstream& operator >>(ifstream& t, Train& s);  // читання з файлу
-    friend ostream& operator <<(ostream& t, Train& s);    // вивід на екран
-    friend ofstream& operator <<(ofstream& t, Train& s);  // вивід  у файл
+    
+    friend ifstream& operator >>(ifstream& t, Ticket& s);  // читання з файлу
+    friend ostream& operator <<(ostream& t, Ticket& s);    // вивід на екран
+    friend ofstream& operator <<(ofstream& t, Ticket& s);  // вивід  у файл
+    
+    
 };
 
-ifstream& operator >>(ifstream& t, Train& s)
+ifstream& operator >>(ifstream& t, Ticket& s)
 {
-    t >> s.destName;
-    t >> s.trNumber;
-    t >> s.seatAmount;
-    t >> s.passAmount;
+    t >> s.station->destName;
+    t >> s.train->trNumber;
+    t >> s.train->seatAmount;
+    t >> s.passenger->passAmount;
 
     return t;
 }
 
-ostream& operator <<(ostream& t, Train& s)
+ostream& operator <<(ostream& t, Ticket& s)
 {
-    t << " " << s.destName << "    " << s.trNumber << "   тому що кількість пасажирів: " << s.passAmount << ", а кількість мість:" << s.seatAmount << endl;
+    t << " " << s.station->destName << "    " << s.train->trNumber << "   тому що кількість пасажирів: " << s.passenger->passAmount << ", а кількість мість:" << s.train->seatAmount << endl;
     return t;
 }
-ofstream& operator <<(ofstream& t, Train& s)
+ofstream& operator <<(ofstream& t, Ticket& s)
 {
-    t << s.destName << "   " << s.trNumber << "   тому що кількість пасажирів: " << s.passAmount << ", а кількість мість:" << s.seatAmount << endl;
+    t << s.station->destName << "   " << s.train->trNumber << "   тому що кількість пасажирів: " << s.passenger->passAmount << ", а кількість мість:" << s.train->seatAmount << endl;
     return t;
 }
+
 
 
 
